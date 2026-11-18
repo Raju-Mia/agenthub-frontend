@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Download } from "lucide-react";
+import { Download, Unlock } from "lucide-react";
 import {
   Badge,
   Button,
@@ -21,6 +21,7 @@ import type {
   MockWorker,
 } from "@/mocks";
 import type { DeviceHistoryItem } from "../lib/device-history";
+import { UnlockDeviceModal } from "./unlock-device-modal";
 
 type DeviceProfileProps = {
   device: MockDevice;
@@ -61,13 +62,34 @@ function downloadJson(filename: string, payload: unknown) {
 }
 
 export function DeviceProfile({
-  device,
+  device: initial,
   customer,
   worker,
   agent,
   history,
 }: DeviceProfileProps) {
+  const [device, setDevice] = useState(initial);
   const [toast, setToast] = useState<string | null>(null);
+  const [unlockOpen, setUnlockOpen] = useState(false);
+
+  const canUnlock =
+    device.status === "locked" || device.status === "auto_solved";
+
+  function handleUnlock(mode: "worker" | "admin") {
+    setDevice((prev) => ({
+      ...prev,
+      status: "unlocked",
+      assignmentStatus: "completed",
+      updatedAt: new Date().toISOString(),
+    }));
+    setUnlockOpen(false);
+    setToast(
+      mode === "admin"
+        ? "Admin unlocked this device (no code required)."
+        : "Device unlocked with secret code.",
+    );
+    window.setTimeout(() => setToast(null), 2200);
+  }
 
   function handleDownload(kind: DownloadKind) {
     const base = {
@@ -160,6 +182,16 @@ export function DeviceProfile({
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
+            {canUnlock ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setUnlockOpen(true)}
+              >
+                <Unlock className="size-3.5" />
+                Unlock
+              </Button>
+            ) : null}
             <Button
               type="button"
               variant="outline"
@@ -213,16 +245,19 @@ export function DeviceProfile({
             <MetaRow label="Device name" value={device.model} />
             <MetaRow label="OS" value={device.access.os} />
             <MetaRow label="IMEI" value={device.access.imei} mono />
+            <MetaRow label="Unlock code" value={device.unlockCode} mono />
             <MetaRow label="Address" value={device.address} />
             <MetaRow label="Status" value={statusLabel(device.status)} />
             <MetaRow
               label="Lock job"
               value={
                 device.assignmentStatus === "awaiting"
-                  ? "Awaiting assignment"
-                  : device.assignmentStatus === "in_progress"
-                    ? "In progress"
-                    : "Completed"
+                  ? "Awaiting claim"
+                  : device.assignmentStatus === "claimed"
+                    ? "Claimed (awaiting admin)"
+                    : device.assignmentStatus === "in_progress"
+                      ? "In progress"
+                      : "Completed"
               }
             />
           </CardContent>
@@ -311,6 +346,13 @@ export function DeviceProfile({
           </div>
         </CardContent>
       </Card>
+
+      <UnlockDeviceModal
+        open={unlockOpen}
+        device={device}
+        onClose={() => setUnlockOpen(false)}
+        onUnlock={handleUnlock}
+      />
 
       <Card className="admin-card border-border/80">
         <CardHeader className="border-b border-border/60 pb-4">

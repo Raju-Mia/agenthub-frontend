@@ -37,6 +37,7 @@ export function PendingLocksPage({
   );
 
   const awaiting = records.filter((d) => d.assignmentStatus === "awaiting").length;
+  const claimed = records.filter((d) => d.assignmentStatus === "claimed").length;
   const inProgress = records.filter(
     (d) => d.assignmentStatus === "in_progress",
   ).length;
@@ -49,18 +50,18 @@ export function PendingLocksPage({
     window.setTimeout(() => setToast(null), 2200);
   }
 
-  function assignDevices(deviceIds: string[], nextWorkerId: string) {
-    const worker = workerMap.get(nextWorkerId);
+  function claimDevice(deviceId: string, workerId: string) {
+    const worker = workerMap.get(workerId);
     if (!worker) return;
     const agent = agentMap.get(worker.agentId);
     setRecords((prev) =>
       prev.map((device) =>
-        deviceIds.includes(device.id)
+        device.id === deviceId
           ? {
               ...device,
               workerId: worker.id,
               agentId: worker.agentId,
-              assignmentStatus: "in_progress" as const,
+              assignmentStatus: "claimed" as const,
               status: "locked" as const,
               updatedAt: new Date().toISOString(),
             }
@@ -68,8 +69,41 @@ export function PendingLocksPage({
       ),
     );
     flash(
-      `In progress · ${worker.displayName} / ${agent?.serial ?? worker.agentSerial}`,
+      `Claimed by ${worker.displayName} · ${agent?.serial ?? worker.agentSerial} — waiting admin`,
     );
+  }
+
+  function approveDevices(deviceIds: string[]) {
+    setRecords((prev) =>
+      prev.map((device) =>
+        deviceIds.includes(device.id)
+          ? {
+              ...device,
+              assignmentStatus: "in_progress" as const,
+              updatedAt: new Date().toISOString(),
+            }
+          : device,
+      ),
+    );
+    flash(`Approved ${deviceIds.length} claim(s) → in progress`);
+  }
+
+  function rejectDevices(deviceIds: string[]) {
+    setRecords((prev) =>
+      prev.map((device) =>
+        deviceIds.includes(device.id)
+          ? {
+              ...device,
+              workerId: undefined,
+              agentId: undefined,
+              assignmentStatus: "awaiting" as const,
+              status: "locked" as const,
+              updatedAt: new Date().toISOString(),
+            }
+          : device,
+      ),
+    );
+    flash(`Rejected ${deviceIds.length} claim(s) → awaiting`);
   }
 
   function completeDevices(deviceIds: string[]) {
@@ -88,32 +122,14 @@ export function PendingLocksPage({
     flash(`Completed ${deviceIds.length} unlock job(s)`);
   }
 
-  function returnDevices(deviceIds: string[]) {
-    setRecords((prev) =>
-      prev.map((device) =>
-        deviceIds.includes(device.id)
-          ? {
-              ...device,
-              workerId: undefined,
-              agentId: undefined,
-              assignmentStatus: "awaiting" as const,
-              status: "locked" as const,
-              updatedAt: new Date().toISOString(),
-            }
-          : device,
-      ),
-    );
-    flash(`${deviceIds.length} returned to awaiting assignment`);
-  }
-
   return (
     <div className="space-y-5">
       <AdminPageHeader
         title="Pending Lock"
-        description="Manage lock jobs from assignment through successful unlock."
+        description="Workers claim locked devices. Admin approves or rejects, then unlock work can complete."
       />
 
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]">
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,1.3fr)_repeat(4,minmax(0,1fr))]">
         <div className="admin-card rounded-xl border border-border/80 bg-card px-4 py-4">
           <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
             Workflow
@@ -135,6 +151,7 @@ export function PendingLocksPage({
           </ol>
         </div>
         <SummaryCard label="Awaiting" count={awaiting} />
+        <SummaryCard label="Claimed" count={claimed} />
         <SummaryCard label="In progress" count={inProgress} />
         <SummaryCard label="Completed" count={completed} />
       </div>
@@ -153,9 +170,10 @@ export function PendingLocksPage({
         workers={workers}
         agents={agents}
         customers={customers}
-        onAssign={assignDevices}
+        onClaim={claimDevice}
+        onApprove={approveDevices}
+        onReject={rejectDevices}
         onComplete={completeDevices}
-        onReturn={returnDevices}
       />
     </div>
   );

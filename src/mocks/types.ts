@@ -3,11 +3,12 @@ export type UserStatus = "active" | "inactive";
 export type DeviceStatus = "locked" | "auto_solved" | "unlocked";
 
 /**
- * Lock job pipeline (who owns the unlock work):
- * awaiting → in_progress → completed
+ * Lock job pipeline:
+ * awaiting → claimed → in_progress → completed
  */
 export type DeviceAssignmentStatus =
   | "awaiting"
+  | "claimed"
   | "in_progress"
   | "completed";
 
@@ -74,8 +75,10 @@ export interface MockDevice {
   customerId: string;
   workerId?: string;
   agentId?: string;
-  /** Lock job stage: awaiting → in_progress → completed */
+  /** Lock job stage: awaiting → claimed → in_progress → completed */
   assignmentStatus: DeviceAssignmentStatus;
+  /** Auto-generated on device register (1–8 digits). Worker/agent unlock with this code. */
+  unlockCode: string;
   updatedAt: string;
   access: MockDeviceAccess;
 }

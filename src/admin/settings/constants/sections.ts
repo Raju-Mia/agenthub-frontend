@@ -75,7 +75,8 @@ export const SETTINGS_SECTIONS: SettingsSection[] = [
   {
     id: "integrations",
     label: "Lock App",
-    description: "Device sync and lock behaviour.",
+    description:
+      "Sync, lock behaviour, and which contact, gallery, IP, model, and owner data to collect.",
     icon: Smartphone,
     group: "Operations",
   },

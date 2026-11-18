@@ -59,8 +59,11 @@ function assignmentBadge(device: MockDevice) {
       </Badge>
     );
   }
+  if (device.assignmentStatus === "claimed") {
+    return <Badge variant="pending">Claimed</Badge>;
+  }
   if (device.assignmentStatus === "in_progress") {
-    return <Badge variant="pending">In progress</Badge>;
+    return <Badge variant="secondary">In progress</Badge>;
   }
   return <Badge variant="approved">Completed</Badge>;
 }

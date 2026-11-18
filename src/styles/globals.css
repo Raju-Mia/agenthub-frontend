@@ -215,6 +215,28 @@ body {
   border-radius: 999px;
 }
 
+.settings-content-scroll,
+.settings-nav-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184 / 0.7) transparent;
+}
+
+.settings-content-scroll::-webkit-scrollbar,
+.settings-nav-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.settings-content-scroll::-webkit-scrollbar-thumb,
+.settings-nav-scroll::-webkit-scrollbar-thumb {
+  background: rgb(148 163 184 / 0.75);
+  border-radius: 999px;
+}
+
+.settings-content-scroll::-webkit-scrollbar-track,
+.settings-nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 @keyframes ah-live-pulse {
   0%,
   100% {

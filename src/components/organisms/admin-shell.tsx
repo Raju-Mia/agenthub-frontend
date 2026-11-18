@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { AdminHeader } from "./admin-header";
 import { AdminSidebar } from "./admin-sidebar";
@@ -27,11 +28,18 @@ function HeaderFallback() {
 }
 
 export function AdminShell({ children }: AdminShellProps) {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const isSettings = pathname === "/admin/settings";
 
   return (
-    <div className="min-h-svh bg-[var(--admin-canvas)]">
+    <div
+      className={cn(
+        "min-h-svh bg-[var(--admin-canvas)]",
+        isSettings && "lg:h-svh lg:overflow-hidden",
+      )}
+    >
       <Suspense fallback={<SidebarFallback collapsed={collapsed} />}>
         <AdminSidebar
           open={mobileOpen}
@@ -44,6 +52,7 @@ export function AdminShell({ children }: AdminShellProps) {
         className={cn(
           "flex min-h-svh min-w-0 flex-col transition-[padding] duration-200",
           collapsed ? "lg:pl-[4.75rem]" : "lg:pl-[17rem]",
+          isSettings && "lg:h-svh lg:overflow-hidden",
         )}
       >
         <Suspense fallback={<HeaderFallback />}>
@@ -53,7 +62,12 @@ export function AdminShell({ children }: AdminShellProps) {
             onToggleCollapse={() => setCollapsed((v) => !v)}
           />
         </Suspense>
-        <main className="admin-surface flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-7">
+        <main
+          className={cn(
+            "admin-surface flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-7",
+            isSettings && "min-h-0 lg:overflow-hidden lg:py-0 lg:pt-0",
+          )}
+        >
           {children}
         </main>
       </div>

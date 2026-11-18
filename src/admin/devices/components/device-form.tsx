@@ -22,6 +22,7 @@ import type {
   MockDevice,
   MockWorker,
 } from "@/mocks";
+import { generateUnlockCode } from "../lib/unlock-code";
 
 const NONE = "";
 
@@ -57,6 +58,9 @@ export function DeviceForm({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [previewCode] = useState(
+    () => initial?.unlockCode ?? generateUnlockCode(),
+  );
 
   const workersForAgent = useMemo(() => {
     if (agentId === NONE) return workers;
@@ -80,8 +84,8 @@ export function DeviceForm({
     setSubmitting(true);
     setSuccess(
       mode === "create"
-        ? `Design demo: would register ${model.trim()} for customer ${customerId}. No API yet.`
-        : `Design demo: would update device ${initial?.id ?? model.trim()}. No API yet.`,
+        ? `Registered ${model.trim()} · unlock code ${previewCode} (auto-generated). Demo only.`
+        : `Updated device ${initial?.id ?? model.trim()} · unlock code ${previewCode}. Demo only.`,
     );
     setSubmitting(false);
     window.setTimeout(() => {
@@ -142,6 +146,19 @@ export function DeviceForm({
                 <option value="auto_solved">Auto solved</option>
                 <option value="unlocked">Unlocked</option>
               </select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="unlockCode">Unlock code (auto)</Label>
+              <Input
+                id="unlockCode"
+                value={previewCode}
+                readOnly
+                className="font-mono tracking-[0.18em]"
+              />
+              <p className="text-xs text-muted-foreground">
+                Random 1–8 digit code created on device register. Worker / agent
+                use it to unlock; admin can unlock without it.
+              </p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="contact">Contact</Label>

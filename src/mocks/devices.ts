@@ -25,6 +25,7 @@ export const mockDevices: MockDevice[] = [
     address: "House 12, Road 3, Mirpur-10, Dhaka",
     customerId: "cus-1",
     assignmentStatus: "awaiting",
+    unlockCode: "9906074",
     updatedAt: "2026-11-17T10:15:00+06:00",
     access: access({
       os: "Android 14",
@@ -46,6 +47,7 @@ export const mockDevices: MockDevice[] = [
     workerId: "wrk-1",
     agentId: "agt-1",
     assignmentStatus: "completed",
+    unlockCode: "37",
     updatedAt: "2026-11-16T18:40:00+06:00",
     access: access({
       os: "Android 13",
@@ -66,6 +68,7 @@ export const mockDevices: MockDevice[] = [
     address: "Agrabad C/A, Chattogram",
     customerId: "cus-2",
     assignmentStatus: "completed",
+    unlockCode: "14150",
     updatedAt: "2026-11-17T08:05:00+06:00",
     access: access({
       os: "Android 12",
@@ -85,6 +88,7 @@ export const mockDevices: MockDevice[] = [
     address: "Sector 7, Road 12, Uttara, Dhaka",
     customerId: "cus-3",
     assignmentStatus: "awaiting",
+    unlockCode: "42919447",
     updatedAt: "2026-11-17T12:22:00+06:00",
     access: access({
       os: "Android 13",
@@ -106,6 +110,7 @@ export const mockDevices: MockDevice[] = [
     workerId: "wrk-5",
     agentId: "agt-2",
     assignmentStatus: "completed",
+    unlockCode: "8598635",
     updatedAt: "2026-11-15T21:10:00+06:00",
     access: access({
       os: "iOS 17",
@@ -126,6 +131,7 @@ export const mockDevices: MockDevice[] = [
     address: "Sonadanga R/A, Khulna",
     customerId: "cus-5",
     assignmentStatus: "completed",
+    unlockCode: "829",
     updatedAt: "2026-11-14T14:00:00+06:00",
     access: access({
       os: "Android 12",
@@ -146,7 +152,8 @@ export const mockDevices: MockDevice[] = [
     customerId: "cus-6",
     workerId: "wrk-2",
     agentId: "agt-1",
-    assignmentStatus: "in_progress",
+    assignmentStatus: "claimed",
+    unlockCode: "86855104",
     updatedAt: "2026-11-17T09:48:00+06:00",
     access: access({
       os: "Android 13",
@@ -168,6 +175,7 @@ export const mockDevices: MockDevice[] = [
     workerId: "wrk-2",
     agentId: "agt-1",
     assignmentStatus: "completed",
+    unlockCode: "46",
     updatedAt: "2026-11-16T11:30:00+06:00",
     access: access({
       os: "Android 13",
@@ -187,6 +195,7 @@ export const mockDevices: MockDevice[] = [
     address: "Tongi Bazar, Gazipur",
     customerId: "cus-3",
     assignmentStatus: "awaiting",
+    unlockCode: "94",
     updatedAt: "2026-11-17T13:05:00+06:00",
     access: access({
       os: "Android 12",
@@ -208,6 +217,7 @@ export const mockDevices: MockDevice[] = [
     workerId: "wrk-8",
     agentId: "agt-3",
     assignmentStatus: "completed",
+    unlockCode: "3",
     updatedAt: "2026-11-13T16:20:00+06:00",
     access: access({
       os: "Android 14",
@@ -228,6 +238,7 @@ export const mockDevices: MockDevice[] = [
     address: "Road 11, Banani, Dhaka",
     customerId: "cus-4",
     assignmentStatus: "awaiting",
+    unlockCode: "2792721",
     updatedAt: "2026-11-17T14:10:00+06:00",
     access: access({
       os: "Android 12",
@@ -247,6 +258,7 @@ export const mockDevices: MockDevice[] = [
     address: "Chashara, Narayanganj",
     customerId: "cus-5",
     assignmentStatus: "awaiting",
+    unlockCode: "8",
     updatedAt: "2026-11-17T14:40:00+06:00",
     access: access({
       os: "Android 13",
@@ -266,6 +278,7 @@ export const mockDevices: MockDevice[] = [
     address: "Road 27, Dhanmondi, Dhaka",
     customerId: "cus-1",
     assignmentStatus: "awaiting",
+    unlockCode: "159679",
     updatedAt: "2026-11-17T15:05:00+06:00",
     access: access({
       os: "Android 14",
@@ -286,7 +299,8 @@ export const mockDevices: MockDevice[] = [
     customerId: "cus-2",
     workerId: "wrk-3",
     agentId: "agt-1",
-    assignmentStatus: "in_progress",
+    assignmentStatus: "claimed",
+    unlockCode: "4928",
     updatedAt: "2026-11-17T15:30:00+06:00",
     access: access({
       os: "iOS 16",
@@ -307,6 +321,7 @@ export const mockDevices: MockDevice[] = [
     address: "Kandirpar, Cumilla",
     customerId: "cus-6",
     assignmentStatus: "awaiting",
+    unlockCode: "59378",
     updatedAt: "2026-11-17T16:00:00+06:00",
     access: access({
       os: "Android 12",

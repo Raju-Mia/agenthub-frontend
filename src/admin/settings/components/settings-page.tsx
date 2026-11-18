@@ -33,10 +33,10 @@ export function SettingsPage() {
   );
 
   return (
-    <div className="-mx-4 -my-5 flex min-h-[calc(100svh-5.5rem)] flex-col bg-[var(--admin-canvas)] sm:-mx-6 sm:-my-5 lg:-mx-8 lg:-my-7 lg:flex-row">
-      {/* Settings secondary nav — reference-style */}
-      <aside className="shrink-0 border-b border-border/80 bg-card lg:w-[17.5rem] lg:border-b-0 lg:border-r">
-        <div className="border-b border-border/70 px-4 py-4">
+    <div className="-mx-4 -my-5 flex flex-col bg-[var(--admin-canvas)] sm:-mx-6 sm:-my-5 lg:-mx-8 lg:my-0 lg:h-full lg:min-h-0 lg:flex-row lg:overflow-hidden">
+      {/* Fixed settings menu — does not scroll with content */}
+      <aside className="flex shrink-0 flex-col border-b border-border/80 bg-card lg:h-full lg:w-[17.5rem] lg:border-b-0 lg:border-r">
+        <div className="shrink-0 border-b border-border/70 px-4 py-4">
           <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             Settings menu
           </p>
@@ -47,7 +47,7 @@ export function SettingsPage() {
 
         <nav
           aria-label="Settings sections"
-          className="max-h-[40vh] overflow-y-auto px-2 py-3 lg:max-h-none lg:px-2.5 lg:py-4"
+          className="settings-nav-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-3 lg:px-2.5 lg:py-4"
         >
           {groups.map((group) => (
             <div key={group.group} className="mb-4 last:mb-0">
@@ -93,8 +93,8 @@ export function SettingsPage() {
         </nav>
       </aside>
 
-      {/* Content */}
-      <div className="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
+      {/* Scrollable content pane */}
+      <div className="settings-content-scroll min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground">
@@ -117,14 +117,19 @@ export function SettingsPage() {
             <span className="hidden font-mono text-[11px] text-muted-foreground sm:inline">
               {currency}
             </span>
-            <Button type="button" variant="outline" size="sm" className="gap-1.5">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-1.5"
+            >
               <Pencil className="size-3.5" />
               Edit
             </Button>
           </div>
         </div>
 
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-4xl pb-8">
           {active.id === "general" ? <WorkspaceSettings /> : null}
           {active.id === "currency" ? <CurrencySettings /> : null}
           {active.id === "commission" ? <CommissionSettings /> : null}
