@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AgentHub Frontend
 
-## Getting Started
+Static-first administration UI for **AgentHub** (agents, workers, devices, earnings).
 
-First, run the development server:
+Backend: `../agenthub-backend`  
+Mobile Lock App: `../lockapp`  
+Plan: [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)
+
+## Design-first rule
+
+Phases **0–10** are **UI only** — mock fixtures in `src/mocks/`, **no API connection**.  
+API wiring starts only after Design Phase 10 is signed off.
+
+## Stack
+
+- Next.js App Router (React 19) + TypeScript
+- Tailwind CSS v4
+- Atomic UI under `src/components/atoms`
+- Feature modules: `src/features/*`, `src/admin/*`
+
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Purpose |
+|---------|---------|
+| `pnpm dev` | Local design preview |
+| `pnpm build` | Production build check |
+| `pnpm lint` | ESLint |
+| `pnpm generate:exports` | Regenerate feature/admin barrel `index.ts` files |
 
-## Learn More
+## Phase 0 checklist
 
-To learn more about Next.js, take a look at the following resources:
+- [x] Next.js scaffold
+- [x] Folder skeleton (`app`, `components`, `admin`, `features`, `mocks`, `styles`)
+- [x] Design tokens (Steel Ops — teal/slate, not purple)
+- [x] Atoms: Button, Input, Label, Badge, Card, Table
+- [x] Mock fixtures: agents, workers, customers, devices, transactions, earnings
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Phase 1 done:** `/` landing + `/login` (demo roles → `/admin` | `/agent` | `/worker`).  
+**Phase 2 done:** Admin shell — sidebar, header, logout, all `/admin/*` nav stubs.  
+**Phase 3 done:** `/admin` dashboard — stats, lock %, earnings, approval queue, top agents.  
+**Phase 4 done:** Agents list, create form, profile + commission (default 50%).  
+**Phase 5 done:** Workers list + profile earning cards (1 TK = 1 point).  
+**Phase 6 done:** Customers list/create/edit/detail (no login) + linked devices.  
+**Phase 7 done:** Devices list + lock % widgets + device detail/history.  
+**Phase 8 done:** Transactions pipeline + Approve/Reject UI + detail drawer/page.  
+**Phase 9 done:** Agent portal — dashboard, workers, earnings, profile (`AGT-0001`).  
+**Phase 10 done:** Worker portal + design QA — **static design complete**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Next (when ready):** API Integration Phase — wire Django `/api/v1` (separate plan).

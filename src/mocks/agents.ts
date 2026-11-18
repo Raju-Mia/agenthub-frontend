@@ -1,0 +1,48 @@
+import type { MockAgent } from "./types";
+
+export const mockAgents: MockAgent[] = [
+  {
+    id: "agt-1",
+    displayName: "Karim Hossain",
+    email: "karim@agenthub.local",
+    serial: "AGT-0001",
+    status: "active",
+    commissionPercent: 50,
+    workersCount: 4,
+    pendingTk: 4200,
+    approvedTk: 28600,
+  },
+  {
+    id: "agt-2",
+    displayName: "Nusrat Jahan",
+    email: "nusrat@agenthub.local",
+    serial: "AGT-0002",
+    status: "active",
+    commissionPercent: 50,
+    workersCount: 3,
+    pendingTk: 1800,
+    approvedTk: 15400,
+  },
+  {
+    id: "agt-3",
+    displayName: "Rafiq Ahmed",
+    email: "rafiq@agenthub.local",
+    serial: "AGT-0003",
+    status: "active",
+    commissionPercent: 45,
+    workersCount: 2,
+    pendingTk: 900,
+    approvedTk: 7200,
+  },
+  {
+    id: "agt-4",
+    displayName: "Salma Akter",
+    email: "salma@agenthub.local",
+    serial: "AGT-0004",
+    status: "inactive",
+    commissionPercent: 50,
+    workersCount: 1,
+    pendingTk: 0,
+    approvedTk: 2100,
+  },
+];
